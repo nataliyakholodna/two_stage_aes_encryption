@@ -1,4 +1,4 @@
-###Project Description
+### Project Description ###
 ***
 A code for the publication in [IEEE TCSET 2022](http://tcset.ieee.org.ua/) conference
 
@@ -13,7 +13,7 @@ While the article is not published yet, in case of necessity please refer to thi
 
 You can familiarise yourself with the **main concepts** via **[this presentation](https://docs.google.com/presentation/d/1WRPRrL_rs232LJMM8mtBHYHIaKSGB9XI/edit?usp=sharing&ouid=106111675070305454051&rtpof=true&sd=true)**.
 
-###Project Structure
+### Project Structure ###
 ***
 The project consists of the following files:
 ```
@@ -69,7 +69,7 @@ Contains the following helper functions:
 - converting text in a suitable for neural network format;
 - inverse activation functions.
 
-###Docker 
+### Docker ###
 ***
 Main file `test_cryptosystem.py` can be launched in a Docker container.
 

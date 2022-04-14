@@ -9,4 +9,4 @@ RUN export PYTHONPATH='${PYTHONPATH}:/enc'
 
 COPY . .
 
-CMD ["python", "./test_cryptosystem.py"]
+CMD ["python", "./main.py"]

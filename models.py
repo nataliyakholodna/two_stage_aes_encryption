@@ -34,14 +34,17 @@ class ModelBase:
 
     def predict(self, x_train):
         self.prediction = self._model.predict(x_train)
+        # scale and round predicted values
         predicted_integer = self.prediction * 256
         predicted_integer = [round(i) for i in predicted_integer[0]]
+        # float and scaled int values
         return self.prediction, predicted_integer
 
     def reverse(self):
         # diff per model
         pass
 
+    # scale back the result of decryption
     @staticmethod
     def _scale_back(t):
         scaled_back = t[0] * 256
@@ -73,17 +76,25 @@ class ModelMain(ModelBase):
         self.act_func = act_func
 
         # if name of only one activation function is passed
+        # then apply it after each hidden layer
         if isinstance(self.act_func, str):
             if self.act_func in self.act_dict:
                 self.act_func = [self.act_func] * n_hidden
             else:
                 raise AttributeError('Passed unknown activation function!')
 
+        # LAST LAYER - SIGMOID
+        # in case of 0 hidden layers we get just 1 weight matrix
+        self.act_func.append('sigmoid')
+        # print(self.act_func)
+
         # if names are passed in a list
+        # check is functions exist
+        # apply after each corresponding layer
         if isinstance(self.act_func, (list, np.ndarray)):
-            if self.n_hidden != len(self.act_func):
+            if self.n_hidden != len(self.act_func) - 1:
                 raise AttributeError(f'Wrong length of sequence. '
-                                     f'Given {len(self.act_func)} activation function(s) instead of {self.n_hidden}.')
+                                     f'Given {len(self.act_func) - 1} activation function(s) instead of {self.n_hidden}.')
 
             for func in self.act_func:
                 if func in self.act_dict:
@@ -96,10 +107,6 @@ class ModelMain(ModelBase):
         else:
             raise AttributeError('act_func must be a str or list[str]!')
 
-        # output layer
-        # in case of 0 hidden layers we get just 1 weight matrix
-        self._model.add(layers.Dense(16, activation='sigmoid'))
-
     def compile(self):
         self._model.compile(loss='mse',
                             optimizer=tf.keras.optimizers.Adam(learning_rate=self.lr),
@@ -109,15 +116,10 @@ class ModelMain(ModelBase):
 
     def reverse(self):
 
-        # reverse last layer
-        sigmoid_inverse = self.act_dict['sigmoid'][1]
-        t = sigmoid_inverse(self.prediction)
-        bias = self._model.layers[self.n_hidden].get_weights()[1]
-        t = t - bias  # remove bias
-        weights = self._model.layers[self.n_hidden].get_weights()[0]
-        t = np.dot(t, np.linalg.inv(weights))
+        # t - temporary variable
+        t = self.prediction
 
-        for i in range(self.n_hidden - 1, -1, -1):
+        for i in range(self.n_hidden, -1, -1):
             # reverse list of activation functions
             # select inverse of the functions
             inverse_f = self.act_dict[self.act_func[i]][1]

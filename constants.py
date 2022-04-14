@@ -2,6 +2,11 @@ from utils import sigmoid_inv, softplus_inv, leaky_relu_inv, elu_inv, prelu_inv,
 from keras import layers
 import numpy as np
 
+'''
+Dictionary in a format:
+{'activation function name': (activation function as argument in keras.layers,
+                              inverse activation function)}
+'''
 ACTIVATION_DICT = {'linear':    ('linear', lambda x: x),
                    'sigmoid':   ('sigmoid', sigmoid_inv),
                    'softplus':  ('softplus', softplus_inv),

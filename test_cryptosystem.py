@@ -45,7 +45,8 @@ print(y_train)
 # ----------------------------------------------   Encrypt & Decrypt   ----------------------------------------------
 
 # act_func=['PReLU α=0.3', 'tanh', 'softplus']
-model = ModelMain(n_hidden=4, act_func='sigmoid')
+# n_hidden=2, act_func='linear'
+model = ModelMain(act_func=['PReLU α=0.3', 'tanh', 'softplus'])
 model.compile()
 
 # Train the neural network

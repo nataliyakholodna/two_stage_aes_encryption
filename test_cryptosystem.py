@@ -7,7 +7,7 @@ from utils import (pad, encrypt,
                    decrypt, bit_error, print_with_divider,
                    plot_loss_history, prepare_for_neural_network)
 
-from models import Model11
+from models import ModelMain
 from sklearn.metrics import mean_squared_error
 from keras_visualizer import visualizer
 
@@ -44,7 +44,8 @@ print(y_train)
 
 # ----------------------------------------------   Encrypt & Decrypt   ----------------------------------------------
 
-model = Model11()
+# act_func=['PReLU α=0.3', 'tanh', 'softplus']
+model = ModelMain(n_hidden=4, act_func='sigmoid')
 model.compile()
 
 # Train the neural network

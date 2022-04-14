@@ -77,12 +77,12 @@ for i, _ in enumerate(ACTIVATION):
     abs_err_arr = []
     time_fit = []
 
-    for j in tqdm(range(100)):  # hard-coded number of experiments
+    for j in tqdm(range(10)):  # hard-coded number of experiments
         model = Model10(ACTIVATION[i])
         model.compile()
 
         start = datetime.now()
-        history = model.fit(X_train, y_train, n_epochs=100)
+        history = model.fit(X_train, y_train, n_epochs=10)
         stop = datetime.now()
 
         temp, y_pred = model.predict(X_train)

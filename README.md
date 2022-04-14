@@ -26,6 +26,12 @@ The project consists of the following files:
 ├── utils.py                # Helper functions
 └── README.md
 ```
+⟶`test_cryptosystem.py`
+
+__Main pipeline__ for text encryption and decryption.
+
+Encrypt and decrypt text with the neural network, print out the results.
+
 ⟶`experiments.py`
 
 Explore the properties of AES cryptosystem: 
@@ -52,12 +58,6 @@ The graph above shows that for training the model for a larger number of epochs 
 To replicate the results of an AES encryption, it is suggested to stop training the model when the loss begins to decrease in a linear manner (≈ 50-100 epochs):
 
 ![img_1.png](readme_images/img_1.png)
-
-⟶`test_cryptosystem.py`
-
-Pipeline for text encryption and decryption. 
-
-Encrypt and decrypt text with the neural network, print out the results.
 
 ⟶`utils.py`
 

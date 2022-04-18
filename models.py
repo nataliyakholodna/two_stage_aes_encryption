@@ -45,6 +45,7 @@ class ModelBase:
         pass
 
     # scale back the result of decryption
+    # can be used without an object of a class
     @staticmethod
     def _scale_back(t):
         scaled_back = t[0] * 256
@@ -59,21 +60,39 @@ class ModelBase:
 
 
 class ModelMain(ModelBase):
+    """
+    A class for adding hidden layers of a neural network in iterative manner.
+    It allows to inverse the NN and to use it for text decryption. \n
+    Passed activation functions are applied after each hidden layer.
+    If activation function is passed without specifying number of layers,
+    n_hidden is set to 1.
+    If activation functions are passed in a list,
+    n_hidden is determined automatically or must be equal to the length of an array.
+
+    :param n_hidden: number of hidden layers in feed forward neural network (may be 0).
+    :param act_dict: dictionary of structure {'name': (activation function, inverse activation function)}.
+    :param act_func: name of the activation function from act_dict dictionary, can be a string or a list of strings.
+    :param lr: learning rate.
+    """
 
     def __init__(self, n_hidden: int = None,
                  act_dict: dict = ACTIVATION_DICT,
                  act_func: str or list[str] = 'linear',
                  lr: float = 0.001) -> None:
-        """
-        """
+
         super().__init__()
         self.n_hidden = n_hidden
-        if self.n_hidden is None:
-            self.n_hidden = len(act_func)
-
         self.lr = lr
         self.act_dict = act_dict
         self.act_func = act_func
+
+        # if n_hidden parameter was not passed
+        # set n_hidden = 1 for string
+        # or set n_hidden = length of a list
+        if self.n_hidden is None and isinstance(self.act_func, (list, np.array)):
+            self.n_hidden = len(act_func)
+        elif self.n_hidden is None and isinstance(self.act_func, str):
+            self.n_hidden = 1
 
         # if name of only one activation function is passed
         # then apply it after each hidden layer
